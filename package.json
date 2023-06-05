@@ -1,5 +1,6 @@
 {
   "name": "my-app",
+  "homepage": "https://your-domain.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
