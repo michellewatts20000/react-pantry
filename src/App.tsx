@@ -73,13 +73,56 @@ const App: React.FC = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ height: "100vh" }}
+      style={{ height: "100vh", width: "100%" }}
     >
-      <Grid item style={{ margin: "100px", textAlign: "center", backgroundColor: "white", padding: '50px', borderRadius: "10px" }}>
-        <Typography variant="h1" align="center" style={{ fontFamily: "Geologica, sans-serif", fontWeight:'900' }} gutterBottom>
+      <Grid
+        item
+        sx={{
+          textAlign: "center",
+          backgroundColor: "white",
+          padding: {
+            xs: "20px", // Padding for extra small screens
+            sm: "20px", // Padding for small screens
+            md: "20px", // Padding for medium screens
+            lg: "50px", // Padding for large screens
+            xl: "50px", // Padding for extra large screens
+          },
+        }}
+      >
+        <Typography
+          sx={{
+            fontFamily: "Geologica, sans-serif",
+            fontWeight: "900",
+            fontSize: {
+              xs: "2rem", // Font size for extra small screens
+              sm: "2.5rem", // Font size for small screens
+              md: "3rem", // Font size for medium screens
+              lg: "4rem", // Font size for large screens
+              xl: "5rem", // Font size for extra large screens
+            },
+            lineHeight: {
+              xs: "2.5rem", // Font size for ex
+            }
+          }}
+          align="center"
+          gutterBottom
+        >
           What's in my pantry?
         </Typography>
-        <Typography variant="h5" align="center">
+        <Typography
+          variant="h5"
+          align="center"
+          gutterBottom
+          sx={{
+            fontSize: {
+              xs: "1.3rem", // Font size for extra small screens
+              sm: "1.4rem", // Font size for small screens
+              md: "1.6rem", // Font size for medium screens
+              lg: "1.8rem", // Font size for large screens
+              xl: "1.8rem", // Font size for extra large screens
+            }
+          }}
+        >
           Search for recipes based on ingredients in your pantry
         </Typography>
         <TextField
@@ -90,15 +133,19 @@ const App: React.FC = () => {
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
           onKeyDown={handleKeyDown}
-          style={{ margin: "25px", width: "300px" }}
+          style={{
+            width: "100%", // Set initial width to 100% for responsiveness
+            maxWidth: "300px", // Set maximum width for larger screens
+            marginTop: "10px",
+          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <Button
                   variant="contained"
-                  size="large"
+                  size="medium"
                   onClick={handleClick}
-                  style={{ backgroundColor: '#E81DCB' }}
+                  style={{ backgroundColor: "#E81DCB" }}
                 >
                   +
                 </Button>
@@ -116,7 +163,7 @@ const App: React.FC = () => {
             <Grid item key={index}>
               <Button
                 variant="outlined"
-                style={{ color: '#E81DCB', border: '#E81DCB' }}
+                style={{ color: "#E81DCB", border: "#E81DCB" }}
                 startIcon={<ClearIcon />}
                 onClick={() => handleRemove(item)}
               >
@@ -132,12 +179,28 @@ const App: React.FC = () => {
           style={{ marginTop: "10px" }}
         >
           <Grid item>
-            <Button size="large" variant="contained" style={{ backgroundColor: '#4b4efc' }} onClick={handleGetRecipes}>
-              Get Recipes {loading && <CircularProgress size={20} style={{ color: '#fff', marginLeft: '10px' }} />}
+            <Button
+              size="large"
+              variant="contained"
+              style={{ backgroundColor: "#4b4efc" }}
+              onClick={handleGetRecipes}
+            >
+              Get Recipes{" "}
+              {loading && (
+                <CircularProgress
+                  size={20}
+                  style={{ color: "#fff", marginLeft: "10px" }}
+                />
+              )}
             </Button>
           </Grid>
           <Grid item>
-            <Button style={{ color: '#4b4efc', borderColor: '#4b4efc' }} variant="outlined" size="large" onClick={clearRecipes}>
+            <Button
+              style={{ color: "#4b4efc", borderColor: "#4b4efc" }}
+              variant="outlined"
+              size="large"
+              onClick={clearRecipes}
+            >
               Clear
             </Button>
           </Grid>
@@ -145,7 +208,7 @@ const App: React.FC = () => {
         <Grid
           container
           justifyContent="center"
-          spacing={2}
+          spacing={1}
           style={{ marginTop: "20px" }}
         >
           {recipes.map((recipe, index) => (
