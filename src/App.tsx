@@ -10,6 +10,7 @@ import {
   CardContent,
   CardActions,
   CardMedia,
+  CircularProgress
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear"
 
@@ -18,6 +19,7 @@ const App: React.FC = () => {
   const [inputArray, setInputArray] = useState<string[]>([])
   const [recipes, setRecipes] = useState<any[]>([])
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -49,6 +51,7 @@ const App: React.FC = () => {
   };
 
   const handleGetRecipes = () => {
+    setLoading(true)
     const ingredientList = inputArray.join("+")
     const apiKey = process.env.REACT_APP_RECIPE_API_KEY
 
@@ -57,7 +60,8 @@ const App: React.FC = () => {
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        setRecipes(data.hits);
+        setRecipes(data.hits)
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
@@ -71,12 +75,12 @@ const App: React.FC = () => {
       alignItems="center"
       style={{ height: "100vh" }}
     >
-      <Grid item style={{ margin: "100px", textAlign: "center" }}>
+      <Grid item style={{ margin: "100px", textAlign: "center", backgroundColor: "white", padding: '50px', borderRadius: "10px" }}>
         <Typography variant="h1" align="center" style={{ fontFamily: "Geologica, sans-serif", fontWeight:'900' }} gutterBottom>
           What's in my pantry?
         </Typography>
         <Typography variant="h5" align="center">
-          Search for recipes based on ingredients in your pantry.
+          Search for recipes based on ingredients in your pantry
         </Typography>
         <TextField
           id="outlined-basic"
@@ -129,7 +133,7 @@ const App: React.FC = () => {
         >
           <Grid item>
             <Button size="large" variant="contained" style={{ backgroundColor: '#4b4efc' }} onClick={handleGetRecipes}>
-              Get Recipes
+              Get Recipes {loading && <CircularProgress size={20} style={{ color: '#fff', marginLeft: '10px' }} />}
             </Button>
           </Grid>
           <Grid item>
