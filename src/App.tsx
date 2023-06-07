@@ -10,16 +10,20 @@ import {
   CardContent,
   CardActions,
   CardMedia,
-  CircularProgress
+  CircularProgress,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear"
+import ClearIcon from "@mui/icons-material/Clear";
 
 const App: React.FC = () => {
-  const [inputValue, setInputValue] = useState("")
-  const [inputArray, setInputArray] = useState<string[]>([])
-  const [recipes, setRecipes] = useState<any[]>([])
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const [loading, setLoading] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [inputArray, setInputArray] = useState<string[]>([]);
+  const [recipes, setRecipes] = useState<any[]>([]);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [showInputError, setShowInputError] = useState(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -27,11 +31,15 @@ const App: React.FC = () => {
     }
   }, []);
 
-
   const handleClick = () => {
-    setInputArray([...inputArray, inputValue]);
-    setInputValue("");
-  }
+    if (inputValue.trim() !== "") {
+      setInputArray([...inputArray, inputValue]);
+      setInputValue("");
+      setShowInputError(false);
+    } else {
+      setShowInputError(true);
+    }
+  };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.keyCode === 13) {
@@ -42,7 +50,9 @@ const App: React.FC = () => {
   const clearRecipes = () => {
     setInputArray([]);
     setInputValue("");
+    setSelectedOption("");
     setRecipes([]);
+    setShowInputError(false);
   };
 
   const handleRemove = (item: string) => {
@@ -51,16 +61,21 @@ const App: React.FC = () => {
   };
 
   const handleGetRecipes = () => {
-    setLoading(true)
-    const ingredientList = inputArray.join("+")
-    const apiKey = process.env.REACT_APP_RECIPE_API_KEY
-
-    const apiUrl = `https://api.edamam.com/search?q=${ingredientList}&app_id=a708b654&app_key=${apiKey}`
+    setLoading(true);
+    const ingredientList = inputArray.join("+");
+    const selectedValue = selectedOption || ""; // Get the selected option value
+    const apiKey = process.env.REACT_APP_RECIPE_API_KEY;
+    let apiUrl = "";
+    if (selectedValue === "") {
+      apiUrl = `https://api.edamam.com/search?q=${ingredientList}&app_id=a708b654&app_key=${apiKey}`;
+    } else {
+      apiUrl = `https://api.edamam.com/search?q=${ingredientList}&app_id=a708b654&app_key=${apiKey}&health=${selectedValue}`;
+    }
 
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        setRecipes(data.hits)
+        setRecipes(data.hits);
         setLoading(false);
       })
       .catch((error) => {
@@ -93,6 +108,7 @@ const App: React.FC = () => {
           sx={{
             fontFamily: "Geologica, sans-serif",
             fontWeight: "900",
+            marginBottom: "40px",
             fontSize: {
               xs: "2rem", // Font size for extra small screens
               sm: "2.5rem", // Font size for small screens
@@ -102,7 +118,7 @@ const App: React.FC = () => {
             },
             lineHeight: {
               xs: "2.5rem", // Font size for ex
-            }
+            },
           }}
           align="center"
           gutterBottom
@@ -120,7 +136,7 @@ const App: React.FC = () => {
               md: "1.6rem", // Font size for medium screens
               lg: "1.8rem", // Font size for large screens
               xl: "1.8rem", // Font size for extra large screens
-            }
+            },
           }}
         >
           Search for recipes based on ingredients in your pantry
@@ -135,7 +151,7 @@ const App: React.FC = () => {
           onKeyDown={handleKeyDown}
           style={{
             width: "100%", // Set initial width to 100% for responsiveness
-            maxWidth: "300px", // Set maximum width for larger screens
+            maxWidth: "350px", // Set maximum width for larger screens
             marginTop: "10px",
           }}
           InputProps={{
@@ -147,12 +163,21 @@ const App: React.FC = () => {
                   onClick={handleClick}
                   style={{ backgroundColor: "#E81DCB" }}
                 >
-                  +
+                  ADD
                 </Button>
               </InputAdornment>
             ),
           }}
         />
+        {showInputError && (
+  <Typography
+    variant="body2"
+    color="error"
+    sx={{ marginTop: "5px" }}
+  >
+    Please enter a valid ingredient.
+  </Typography>
+)}
         <Grid
           container
           justifyContent="center"
@@ -172,6 +197,27 @@ const App: React.FC = () => {
             </Grid>
           ))}
         </Grid>
+        <Select
+          value={selectedOption}
+          onChange={(event) => setSelectedOption(event.target.value)}
+          placeholder="Select an option"
+          displayEmpty
+          style={{
+            width: "100%",
+            maxWidth: "350px",
+            marginTop: "10px",
+          }}
+        >
+          <MenuItem value="" disabled>
+            Any dietary restrictions?
+          </MenuItem>
+          <MenuItem value="vegetarian">Vegetarian</MenuItem>
+          <MenuItem value="vegan">Vegan</MenuItem>
+          <MenuItem value="gluten-free">Gluten free</MenuItem>
+          <MenuItem value="dairy-free">Dairy free</MenuItem>
+          <MenuItem value="peanut-free">Peanut free</MenuItem>
+        </Select>
+
         <Grid
           container
           justifyContent="center"
