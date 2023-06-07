@@ -170,14 +170,10 @@ const App: React.FC = () => {
           }}
         />
         {showInputError && (
-  <Typography
-    variant="body2"
-    color="error"
-    sx={{ marginTop: "5px" }}
-  >
-    Please enter a valid ingredient.
-  </Typography>
-)}
+          <Typography variant="body2" color="error" sx={{ marginTop: "5px" }}>
+            Please enter a valid ingredient.
+          </Typography>
+        )}
         <Grid
           container
           justifyContent="center"
@@ -188,7 +184,7 @@ const App: React.FC = () => {
             <Grid item key={index}>
               <Button
                 variant="outlined"
-                style={{ color: "#E81DCB", border: "#E81DCB" }}
+                color="primary"
                 startIcon={<ClearIcon />}
                 onClick={() => handleRemove(item)}
               >
@@ -206,9 +202,10 @@ const App: React.FC = () => {
             width: "100%",
             maxWidth: "350px",
             marginTop: "10px",
+            textAlign: "left"
           }}
         >
-          <MenuItem value="" disabled>
+          <MenuItem value="">
             Any dietary restrictions?
           </MenuItem>
           <MenuItem value="vegetarian">Vegetarian</MenuItem>
@@ -259,7 +256,7 @@ const App: React.FC = () => {
         >
           {recipes.map((recipe, index) => (
             <Grid item key={index}>
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, textAlign: 'left' }}>
                 <CardMedia
                   sx={{ height: 140 }}
                   image={recipe.recipe.image}
@@ -270,7 +267,7 @@ const App: React.FC = () => {
                     {recipe.recipe.label}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {recipe.recipe.healthLabels}
+                    {recipe.recipe.mealType}
                   </Typography>
                 </CardContent>
                 <CardActions>
