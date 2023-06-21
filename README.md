@@ -1,46 +1,58 @@
-# Getting Started with Create React App
+# Pantry Recipe Finder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a React component called App.ts that allows you to search for recipes based on the ingredients in your pantry. It provides a user interface where you can add ingredients, select dietary restrictions, and retrieve recipes from an external API. The component is built using Material-UI for the UI components and styling.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To use this component in your React project, follow these steps:
 
-### `npm start`
+1. Install the required dependencies by running the following command:
+`npm install @mui/material react react-dom @mui/icons-material`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. Copy the App.ts code and paste it into your project's component file.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+3. Make sure to have the required environment variable `REACT_APP_RECIPE_API_KEY` set with your API key for the recipe data source.
 
-### `npm test`
+4. Use the App component in your application by importing it and rendering it in a suitable location.
+```jsx
+import React from 'react';
+import App from './App';
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+function MyPantryApp() {
+  return <App />;
+}
 
-### `npm run build`
+export default MyPantryApp;
+```
+5. Run your React application and navigate to the page where the App component is rendered. You should see the Pantry Recipe Finder interface.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
+The Pantry Recipe Finder allows you to perform the following actions:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Add an ingredient to your pantry by entering it in the text field and clicking the "ADD" button.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Remove an ingredient from your pantry by clicking the "x" icon next to the ingredient.
 
-### `npm run eject`
+Select a dietary restriction from the dropdown menu to filter recipes accordingly.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Click the "Get Recipes" button to retrieve recipes based on the ingredients in your pantry and the selected dietary restriction.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Click the "Clear" button to reset the pantry and remove all ingredients and selected options.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The retrieved recipes will be displayed as cards with the recipe name, meal type, and a link to view the full recipe.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Please note that this component relies on an external API (https://api.edamam.com/search) to fetch the recipe data. Make sure you have a valid API key and configure it in the component's code.
 
-## Learn More
+## Dependencies
+The Pantry Recipe Finder component utilises the following dependencies:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+React - JavaScript library for building user interfaces.
+@mui/material - Material-UI library that provides pre-built React components and styling.
+@mui/icons-material - Material-UI library that provides icons used in the component.
+Make sure to include these dependencies in your project for the component to work correctly.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Credits
+The Pantry Recipe Finder component was developed by [your name] and is based on React and Material-UI. It utilizes the Edamam API to fetch recipe data.
+
+## License
+This component is released under the MIT License. Feel free to modify and use it in your projects.
