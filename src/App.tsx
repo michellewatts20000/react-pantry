@@ -94,7 +94,6 @@ const App: React.FC = () => {
         item
         sx={{
           textAlign: "center",
-          backgroundColor: "white",
           padding: {
             xs: "20px", // Padding for extra small screens
             sm: "20px", // Padding for small screens
